@@ -27,7 +27,7 @@
 import StoryItem from './components/StoryItem.vue'
 
 export default {
-  name: 'app',
+  name: 'home',
   data() {
     return {
       // topStories: [],

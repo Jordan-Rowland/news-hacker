@@ -11,12 +11,17 @@
         v-if="num <= 499"
         @click="num += 20">NEXT</button>
     </div>
-    <!-- <router-link :to="story"> -->
-      <story-item :key="index"
-        v-for="(story, index) in stories.slice(num-20,num)"
+    <div
+    v-for="(story, index) in stories.slice(num-20,num)"
+     :key="index">
+      <story-item
         :title="story.title"
         :info="story.kids ? story.kids.length : 0"/>
-      <!-- </router-link> -->
+        {{ story }}
+      <router-link
+        :to="{ name: 'story', params: {id: story.id} }">Read More
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -29,7 +34,7 @@ export default {
   data() {
     return {
       stories: [],
-      num: 20
+      num: 20,
     }
   },
   components: {

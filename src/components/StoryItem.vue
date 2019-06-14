@@ -5,11 +5,11 @@
         {{ title }}
       </h3>
     </div>
-
     <div class="info">
       <em>
         Comments: {{ info }}
       </em>
+
     </div>
   </div>
 </template>
@@ -26,6 +26,7 @@ export default {
   props: {
     title: String,
     info: Number,
+    // storyId: Number
   }
 };
 </script>

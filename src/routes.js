@@ -1,9 +1,17 @@
 /*jshint esversion:7*/
-import App from './App.vue';
+import StoryItem from './components/StoryItem.vue';
+import Home from './components/Home.vue';
 import Story from './components/Story.vue';
 
 export const routes = [
-  { path: '', name: 'home', components: App },
-  { path: '/story/:id', name: 'story', components: Story },
+  { path: '', name: 'home', components: {
+    default: Home,
+    'story-item': StoryItem
+    }
+  },
+  { path: '/story/:id', name: 'story', components: {
+    default: Story
+    }
+  },
   { path: '*', redirect: { name: 'home' } }
 ];

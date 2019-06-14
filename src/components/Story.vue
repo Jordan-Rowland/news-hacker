@@ -10,7 +10,7 @@ export default {
   name: 'Story',
   data() {
     return {
-
+      sotry: {}
     };
   },
 

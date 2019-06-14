@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div class="head">
       <div>Hacker News</div>
       <button
@@ -8,29 +8,26 @@
         @click="num -= 20">PREV</button>
       <button
         class="btn next"
-        v-if="num < 440"
+        v-if="num <= 499"
         @click="num += 20">NEXT</button>
     </div>
-    <!-- <router-link -->
-    <!-- :to="story"> -->
-      <story-item
+    <!-- <router-link :to="story"> -->
+      <story-item :key="index"
         v-for="(story, index) in stories.slice(num-20,num)"
         :title="story.title"
-        :info="story.kids ? story.kids.length : 0">
-        </story-item>
+        :info="story.kids ? story.kids.length : 0"/>
       <!-- </router-link> -->
   </div>
 </template>
 
 <script>
 /* jshint esversion:7 */
-import StoryItem from './components/StoryItem.vue'
+import StoryItem from './StoryItem.vue'
 
 export default {
   name: 'home',
   data() {
     return {
-      // topStories: [],
       stories: [],
       num: 20
     }
@@ -58,10 +55,6 @@ export default {
 </script>
 
 <style>
-#app {
-
-}
-
 .head {
   background-color: cyan;
   border: black 1px solid;

@@ -33,28 +33,36 @@ export default {
   name: 'home',
   data() {
     return {
-      stories: [],
+      // stories: [],
       num: 20,
     }
   },
   components: {
     StoryItem
   },
+  computed: {
+    stories() {
+      return this.$store.state.stories
+    }
+  },
   methods: {
     getStory(id) {
       fetch(`https://hacker-news.firebaseio.com/v0/item/${id}/.json`)
         .then(res => res.json())
-        .then(jsonRes => this.stories.push(jsonRes))
+        .then(jsonRes => this.$store.state.stories.push(jsonRes))
     },
   },
   created() {
-    fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
-      .then(res => res.json())
-      .then(topStories => {
-        for (let story of topStories) {
-          this.getStory(story)
-        }
-      })
+    if (!this.stories.length) {
+      console.log('Calling Top Articles')
+      fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
+        .then(res => res.json())
+        .then(topStories => {
+          for (let story of topStories) {
+            this.getStory(story)
+          }
+        })
+    }
   }
 }
 </script>

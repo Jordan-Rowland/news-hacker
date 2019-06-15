@@ -2,8 +2,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-export default new new Vuex.Store({
-  state: {},
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  state: {
+    stories: [],
+  },
   mutations: {},
-  actions: {}
+  actions: {},
 });

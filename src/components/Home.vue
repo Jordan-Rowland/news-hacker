@@ -54,14 +54,19 @@ export default {
   },
   created() {
     if (!this.stories.length) {
+      // eslint-disable-next-line
       console.log('Calling Top Articles')
       fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
         .then(res => res.json())
         .then(topStories => {
-          for (let story of topStories) {
+          for (let story of topStories.slice(0,2)) {
             this.getStory(story)
           }
         })
+    }
+    else {
+      // eslint-disable-next-line
+      console.log('Retrieving stories from Store')
     }
   }
 }

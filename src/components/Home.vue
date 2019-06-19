@@ -1,28 +1,28 @@
 <template>
-  <div>
-    <div class="head">
-      <div>Hacker News</div>
-      <button
-        class="btn prev"
-        v-if="num > 20"
-        @click="num -= 20">PREV</button>
-      <button
-        class="btn next"
-        v-if="num <= 499"
-        @click="num += 20">NEXT</button>
-    </div>
-    <div
-    v-for="(story, index) in stories.slice(num-20,num)"
-     :key="index">
-      <story-item
-        :title="story.title"
-        :info="story.kids ? story.kids.length : 0"/>
-        {{ story }}
-      <router-link
-        :to="{ name: 'story', params: {id: story.id} }">Read More
-      </router-link>
-    </div>
+<div>
+  <div class="head">
+    <div>Hacker News</div>
+    <button
+      class="btn prev"
+      v-if="num > 20"
+      @click="num -= 20">PREV</button>
+    <button
+      class="btn next"
+      v-if="num <= 499"
+      @click="num += 20">NEXT</button>
   </div>
+  <div
+  v-for="(story, index) in stories.slice(num-20,num)"
+   :key="index">
+    <router-link
+      :to="{ name: 'story', params: {id: story.id} }">
+    <story-item
+      :title="story.title"
+      :info="story.kids ? story.kids.length : 0"
+      :time="Date(story.time).substr(4,11)"/>
+    </router-link>
+  </div>
+</div>
 </template>
 
 <script>
@@ -59,7 +59,7 @@ export default {
       fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
         .then(res => res.json())
         .then(topStories => {
-          for (let story of topStories.slice(0,2)) {
+          for (let story of topStories) {
             this.getStory(story)
           }
         })

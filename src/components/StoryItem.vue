@@ -7,7 +7,7 @@
     </div>
     <div class="info">
       <em>
-        Comments: {{ info }}
+        {{ time }} | Comments: {{ info }}
       </em>
 
     </div>
@@ -26,7 +26,7 @@ export default {
   props: {
     title: String,
     info: Number,
-    // storyId: Number
+    time: [Number, String]
   }
 };
 </script>

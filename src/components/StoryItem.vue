@@ -1,15 +1,13 @@
 <template>
-  <div>
+  <div class="story-item">
     <div class="title">
-      <h3>
+      <h4>
         {{ title }}
-      </h3>
-    </div>
-    <div class="info">
-      <em>
+      </h4>
+      <em class="details">
+      {{ score }} points by {{ by }},
         {{ time }} | Comments: {{ info }}
       </em>
-
     </div>
   </div>
 </template>
@@ -26,21 +24,31 @@ export default {
   props: {
     title: String,
     info: Number,
-    time: [Number, String]
+    time: [Number, String],
+    by: String,
+    score: Number,
   }
 };
 </script>
 
 <style scoped>
-.title {
-  border: black 1px solid;
-  background-color: lightblue;
-  padding: 0 10px;
+.story-item {
+  margin-top: 5px;
+  color: #efe;
 }
 
-.info {
-  border: black 1px solid;
-  background-color: #ddd;
-  padding: 0 10px;
+.title {
+  border: #393C3E 1px solid;
+  background-color: #393C3E;
+  padding: 10px;
+}
+
+h4 {
+  margin: 3px;
+}
+
+.details {
+  margin: 10px;
+  font-size: .8em;
 }
 </style>

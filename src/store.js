@@ -7,8 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     stories: [],
-    comments: [],
+    // comments: [],
   },
-  mutations: {},
-  actions: {},
+  // mutations: {},
+  // actions: {},
 });

@@ -2,7 +2,9 @@
   <div>
     <h2><a href="story.url">{{ story.title }}</a></h2>
     <app-comment
-    :comments="comments"></app-comment>
+      v-if="comments"
+      :comments="comments">
+    </app-comment>
   </div>
 </template>
 
@@ -18,6 +20,7 @@ export default {
       comments: []
     };
   },
+  props: ['storyProp'],
   components: {
     'app-comment': Comment,
   },
@@ -35,14 +38,16 @@ export default {
         fetch(`https://hacker-news.firebaseio.com/v0/item/${commentId}/.json`)
           .then(res => res.json())
           .then(jsonRes => {
-            this.comments.push({
-              id: jsonRes.id,
-              parent: jsonRes.parent,
-              by: jsonRes.by,
-              text: jsonRes.text,
-              kids: jsonRes.kids,
-              comments: [],
-            });
+            if (!jsonRes.deleted) {
+              this.comments.push({
+                id: jsonRes.id,
+                parent: jsonRes.parent,
+                by: jsonRes.by,
+                text: jsonRes.text,
+                kids: jsonRes.kids,
+                comments: [],
+              });
+            }
           }) // End .then jsonRes
       } // End for
     }, // End getComments

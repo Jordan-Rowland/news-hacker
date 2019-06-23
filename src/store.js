@@ -6,9 +6,19 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    stories: [],
-    // comments: [],
+    topIds: [],
+    topstories: [],
+    newIds: [],
+    newstories: [],
+    bestIds: [],
+    beststories: [],
+    num: 50,
   },
-  // mutations: {},
-  // actions: {},
+  mutations: {
+    increment: state => state.num += 50,
+    decrement: state => state.num -= 50
+  },
+  getters: {
+    num: state => state.num,
+  },
 });

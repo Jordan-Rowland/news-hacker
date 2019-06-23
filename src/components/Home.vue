@@ -2,30 +2,29 @@
 <div>
   <div class="head">
     <button
-      @click="getStories('topstories')"
+      @click="storyCategory = 'topstories'"
       class="btn btn-small">Top</button>
     <button
-      @click="getStories('newstories')"
+      @click="storyCategory = 'newstories'"
       class="btn btn-small">New</button>
     <button
-      @click="getStories('beststories')"
+      @click="storyCategory = 'beststories'"
       class="btn btn-small">Best</button>
     <div>Hacker News</div>
     <button
       class="btn prev"
-      v-if="num > 20"
-      @click="num -= 20">PREV</button>
+      v-if="num > 50"
+      @click="decrement">PREV</button>
     <button
       class="btn next"
       v-if="num <= 499"
-      @click="num += 20">NEXT</button>
+      @click="increment">NEXT</button>
   </div>
   <div
-  v-for="(story, index) in stories.slice(num-20,num)"
+  v-for="(story, index) in stories.slice(num-50,num)"
    :key="index">
     <router-link
-      :to="{ name: 'story', params: {id: story.id, storyProp: 'hello'} }">
-      <!-- {{ story }} -->
+      :to="{ name: 'story', params: {id: story.id} }">
     <story-item
       :title="story.title"
       :by="story.by"
@@ -39,49 +38,77 @@
 
 <script>
 /* jshint esversion:7 */
-import StoryItem from './StoryItem.vue'
+import { mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
+import StoryItem from './StoryItem.vue';
 
 export default {
   name: 'home',
   data() {
     return {
-      // stories: [],
-      num: 20,
+      storyCategory: 'topstories',
     }
   },
   components: {
     StoryItem
   },
   computed: {
+    ...mapGetters([
+      'num',
+    ]),
     stories() {
-      return this.$store.state.stories
+      if (this.storyCategory == 'topstories'){
+        return this.$store.state.topstories
+      }
+      else if (this.storyCategory == 'newstories'){
+        return this.$store.state.newstories
+      }
+      else if (this.storyCategory == 'beststories'){
+        return this.$store.state.beststories
+      }
     }
   },
   methods: {
+    ...mapMutations([
+      'increment',
+      'decrement'
+    ]),
+    addIdToStore(id) {
+      console.log('pass')
+    },
     getStories(category) {
-      if (!this.stories.length) {
-        // eslint-disable-next-line
-        console.log('Calling Top Articles')
+      if (!this.$store.state.topstories.length) {
         fetch(`https://hacker-news.firebaseio.com/v0/${category}.json`)
           .then(res => res.json())
-          .then(topStories => {
-            for (let story of topStories) {
-              this.getStory(story)
+          .then(stories => {
+            for (let story of stories) {
+              this.getStory(story, category)
             }
           })
       }
-      else {
-        // eslint-disable-next-line
-        console.log('Retrieving stories from Store')
-      }
     },
-    getStory(id) {
+    getStory(id, category) {
       fetch(`https://hacker-news.firebaseio.com/v0/item/${id}/.json`)
         .then(res => res.json())
-        .then(jsonRes => this.$store.state.stories.push(jsonRes))
+        .then(jsonRes => {
+          if (category == 'topstories') {
+            console.log('fetching topstories')
+            this.$store.state.topstories.push(jsonRes)
+          }
+          else if (category == 'newstories') {
+            console.log('fetching newstories')
+            this.$store.state.newstories.push(jsonRes)
+          }
+          else {
+            console.log('fetching beststories')
+            this.$store.state.beststories.push(jsonRes)
+          }
+        })
     },
   },
   created() {
+    this.getStories('topstories')
+    this.getStories('newstories')
     this.getStories('beststories')
   },
 }

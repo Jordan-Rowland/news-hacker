@@ -1,29 +1,7 @@
 # news-hacker
 
-## Project setup
-```
-npm install
-```
+Hacker News clone using the Hacker News API
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+![](https://i.imgur.com/iS61NZ8.png)
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+List view of the top 500 Top, Best, or New stories. Each story allows you to click in and read the comments.

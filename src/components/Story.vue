@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2><a href="story.url">{{ story.title }}</a></h2>
+    <h2><a :href="story.url">{{ story.title }}</a></h2>
     <app-comment
       v-if="comments"
       :comments="comments">

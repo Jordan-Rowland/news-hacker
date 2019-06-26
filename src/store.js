@@ -15,10 +15,14 @@ export default new Vuex.Store({
     num: 50,
   },
   mutations: {
-    increment: state => state.num += 50,
+    increment: state => {
+      state.num += 50;
+    },
     decrement: state => state.num -= 50
   },
   getters: {
     num: state => state.num,
+    topIds: state => state.topIds,
+    topstories: state => state.topstories,
   },
 });

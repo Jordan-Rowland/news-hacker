@@ -18,7 +18,7 @@
     <button
       class="btn next"
       v-if="num <= 499"
-      @click="increment">NEXT</button>
+      @click="incrementStories">NEXT</button>
   </div>
   <div
   v-for="(story, index) in stories.slice(num-50,num)"
@@ -46,7 +46,7 @@ export default {
   name: 'home',
   data() {
     return {
-      storyCategory: 'topstories',
+      storyCategory: 'beststories',
     }
   },
   components: {
@@ -55,34 +55,68 @@ export default {
   computed: {
     ...mapGetters([
       'num',
+      'topIds',
+      'topstories'
     ]),
     stories() {
       if (this.storyCategory == 'topstories'){
-        return this.$store.state.topstories
+        return this.$store.state.topstories.sort((a,b) => {
+          return b.id > a.id
+        })
       }
       else if (this.storyCategory == 'newstories'){
-        return this.$store.state.newstories
+        return this.$store.state.newstories.sort((a,b) => {
+          return b.id > a.id
+        })
       }
       else if (this.storyCategory == 'beststories'){
-        return this.$store.state.beststories
+        return this.$store.state.beststories.sort((a,b) => {
+          return b.id > a.id
+        })
       }
-    }
+    },
+    // sortedList() {
+
+    // },
   },
   methods: {
     ...mapMutations([
       'increment',
       'decrement'
     ]),
-    addIdToStore(id) {
-      console.log('pass')
+    incrementStories() {
+      this.$store.state.num += 50
+      console.log(this.topIds.length)
+      console.log(this.topstories.length)
+      if (this.num >= this.$store.state.topstories.length) {
+        for (let i in this.$store.state.topIds.slice(this.num-50,this.num)) {
+          this.getStory(this.$store.state.topIds[i],'topstories')
+          this.getStory(this.$store.state.newIds[i],'newstories')
+          this.getStory(this.$store.state.bestIds[i],'beststories')
+        }
+      }
     },
     getStories(category) {
       if (!this.$store.state.topstories.length) {
         fetch(`https://hacker-news.firebaseio.com/v0/${category}.json`)
           .then(res => res.json())
           .then(stories => {
-            for (let story of stories) {
-              this.getStory(story, category)
+            for (let id of stories) {
+              if (category == 'topstories') {
+                // eslint-disable-next-line
+                this.$store.state.topIds.push(id)
+              }
+              else if (category == 'newstories') {
+                // eslint-disable-next-line
+                this.$store.state.newIds.push(id)
+              }
+              else {
+                // eslint-disable-next-line
+                this.$store.state.bestIds.push(id)
+              }
+            }
+            for (let id of stories.slice(this.num-50,this.num)) {
+              this.getStory(id, category)
             }
           })
       }
@@ -92,15 +126,18 @@ export default {
         .then(res => res.json())
         .then(jsonRes => {
           if (category == 'topstories') {
-            console.log('fetching topstories')
+            // eslint-disable-next-line
+            console.log('fetching top')
             this.$store.state.topstories.push(jsonRes)
           }
           else if (category == 'newstories') {
-            console.log('fetching newstories')
+            // eslint-disable-next-line
+            console.log('fetching new')
             this.$store.state.newstories.push(jsonRes)
           }
           else {
-            console.log('fetching beststories')
+            // eslint-disable-next-line
+            console.log('fetching best')
             this.$store.state.beststories.push(jsonRes)
           }
         })

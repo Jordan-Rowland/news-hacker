@@ -18,11 +18,15 @@ export default new Vuex.Store({
     increment: state => {
       state.num += 50;
     },
-    decrement: state => state.num -= 50
+    decrement: state => {
+      state.num -= 50;
+    }
   },
   getters: {
     num: state => state.num,
     topIds: state => state.topIds,
+    newIds: state => state.newIds,
+    bestIds: state => state.bestIds,
     topstories: state => state.topstories,
   },
 });

@@ -28,5 +28,7 @@ export default new Vuex.Store({
     newIds: state => state.newIds,
     bestIds: state => state.bestIds,
     topstories: state => state.topstories,
+    newstories: state => state.newstories,
+    beststories: state => state.beststories,
   },
 });

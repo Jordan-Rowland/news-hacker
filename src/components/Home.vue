@@ -59,15 +59,20 @@ export default {
       'newIds',
       'bestIds',
       'topstories',
+      'newstories',
+      'beststories'
     ]),
     stories() {
       if (this.storyCategory == 'topstories'){
+        this.$store.state.num = 50;
         return this.topstories
       }
       else if (this.storyCategory == 'newstories'){
+        this.$store.state.num = 50;
         return this.newstories
       }
       else if (this.storyCategory == 'beststories'){
+        this.$store.state.num = 50;
         return this.beststories
       }
     },
